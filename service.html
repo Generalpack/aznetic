@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Kami - Coffee Frappe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #243028; /* Dark green */
+            --text-light: #d1d5c9; /* Off-white */
+            --accent-brown: #966b42; /* Brown */
+            --accent-light-brown: #b89369; /* Light Brown */
+            --white: #ffffff;
+            --dark-card: #2f3e34; /* Card background */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            overflow-x: hidden;
+            background-image: radial-gradient(#304035 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* Navigation - Konsisten dengan halaman lain */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 8%;
+            background-color: var(--bg-color);
+            position: relative;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex; align-items: center; gap: 10px;
+            font-weight: 800; letter-spacing: 2px;
+            color: var(--text-light); font-size: 1.2rem;
+            text-decoration: none;
+        }
+
+        .logo i { font-size: 2rem; color: var(--text-light); }
+        nav ul { list-style: none; display: flex; gap: 40px; }
+        nav a { text-decoration: none; color: var(--text-light); font-weight: 600; font-size: 0.9rem; transition: 0.3s; }
+        nav a:hover, nav a.active { color: var(--accent-light-brown); }
+        .menu-toggle { display: none; color: var(--accent-light-brown); font-size: 1.5rem; cursor: pointer; }
+
+        /* Main Content Padding */
+        main { padding: 60px 8% 100px; }
+
+        /* Section Titles */
+        .page-title {
+            text-align: center; font-size: 3rem; font-weight: 900;
+            color: var(--accent-light-brown); text-transform: uppercase; margin-bottom: 50px;
+        }
+        
+        .section-header {
+            font-size: 1.8rem; font-weight: 800; color: var(--accent-brown);
+            letter-spacing: 2px; margin-bottom: 30px; text-transform: uppercase;
+            border-bottom: 3px solid var(--accent-brown); display: inline-block; padding-bottom: 10px;
+        }
+
+        /* 1. Cerita Kami (Story Section) */
+        .story-container {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; margin-bottom: 80px;
+        }
+        .story-text p {
+            line-height: 1.8; margin-bottom: 20px; opacity: 0.9;
+        }
+        .story-highlight {
+            background-color: var(--accent-brown); color: var(--white);
+            padding: 30px; border-radius: 10px; font-weight: 600; line-height: 1.6;
+            border-left: 5px solid var(--accent-light-brown);
+        }
+        .story-image img {
+            width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* 2. Expertise Section */
+        .expertise-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 80px;
+        }
+        .expertise-card {
+            background-color: var(--dark-card); border-radius: 10px; overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .expertise-card:hover { transform: translateY(-5px); }
+        .expertise-img { width: 100%; height: 180px; object-fit: cover; }
+        .expertise-body { padding: 20px; }
+        .expertise-body h4 { color: var(--accent-light-brown); margin-bottom: 10px; text-transform: uppercase; }
+        .expertise-body p { font-size: 0.85rem; opacity: 0.8; line-height: 1.5; }
+
+        /* Quote Banner */
+        .quote-banner {
+            text-align: center; padding: 60px 20px; margin-bottom: 80px;
+            border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .quote-banner h2 {
+            font-size: 2rem; font-weight: 800; color: var(--text-light); max-width: 800px; margin: 0 auto; line-height: 1.4;
+        }
+        .quote-banner span { color: var(--accent-light-brown); }
+
+        /* 3. Team Section */
+        .team-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-bottom: 80px;
+        }
+        .team-card { text-align: center; }
+        .team-img-wrap {
+            width: 200px; height: 200px; margin: 0 auto 20px; border-radius: 50%;
+            overflow: hidden; border: 4px solid var(--accent-brown);
+        }
+        .team-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+        .team-card h3 { color: var(--text-light); margin-bottom: 5px; text-transform: uppercase; }
+        .team-card h5 { color: var(--accent-light-brown); font-weight: 600; margin-bottom: 15px; letter-spacing: 1px; }
+        .team-card p { font-size: 0.9rem; opacity: 0.8; line-height: 1.6; }
+
+        /* 4. Achievement Section */
+        .achievement-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;
+        }
+        .achievement-card img {
+            width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 15px;
+        }
+        .achievement-card h4 { color: var(--accent-light-brown); margin-bottom: 10px; font-weight: 800; }
+        .achievement-card p { font-size: 0.9rem; opacity: 0.8; }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .story-container { grid-template-columns: 1fr; }
+            .page-title { font-size: 2.5rem; }
+        }
+        @media (max-width: 768px) {
+            nav ul { display: none; }
+            .menu-toggle { display: block; }
+            .quote-banner h2 { font-size: 1.5rem; }
+            .section-header { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">
+            <i class="fa-solid fa-mug-hot"></i>
+            <div>EST 22<br>COFFEE</div>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="#" class="active">Services</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </nav>
+        <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
+    </header>
+
+    <main>
+        <h1 class="page-title">Tentang Kami</h1>
+
+        <section class="story-container">
+            <div class="story-text">
+                <h2 class="section-header">Cerita Kami</h2>
+                <p>Kami adalah sekumpulan orang yang bersemangat menyajikan pengalaman kopi terbaik. Dimulai dari langkah kecil, kami berkomitmen untuk mendukung petani lokal dan menghadirkan biji kopi Nusantara dengan kualitas premium ke dalam setiap cangkir Anda.</p>
+                <div class="story-highlight">
+                    "Kami percaya bahwa secangkir kopi yang hebat bukan hanya tentang rasa, tetapi tentang dedikasi, proses, dan orang-orang di baliknya. Kami membawa semangat otentik ke setiap tegukan."
+                </div>
+            </div>
+            <div class="story-image">
+                <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?crop=entropy&cs=tinysrgb&fit=crop&h=600&w=600" alt="Coffee Story">
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-header">Coffee Expertise</h2>
+            <div class="expertise-grid">
+                <div class="expertise-card">
+                    <img src="https://images.unsplash.com/photo-1611162458324-aae1eb4129a4?crop=entropy&cs=tinysrgb&fit=crop&h=300&w=400" alt="Processing Facilities" class="expertise-img">
+                    <div class="expertise-body">
+                        <h4>Fasilitas Roasting</h4>
+                        <p>Fasilitas pemanggangan kami dilengkapi mesin berstandar tinggi untuk memastikan kematangan biji kopi yang presisi.</p>
+                    </div>
+                </div>
+                <div class="expertise-card">
+                    <img src="https://images.unsplash.com/photo-1518832553480-182c8af8daeb?crop=entropy&cs=tinysrgb&fit=crop&h=300&w=400" alt="Industry Network" class="expertise-img">
+                    <div class="expertise-body">
+                        <h4>Jaringan Industri</h4>
+                        <p>Bekerja sama erat dengan petani lokal untuk memastikan suplai biji kopi terbaik yang berkelanjutan.</p>
+                    </div>
+                </div>
+                <div class="expertise-card">
+                    <img src="https://images.unsplash.com/photo-1587734195503-904fca47e0e9?crop=entropy&cs=tinysrgb&fit=crop&h=300&w=400" alt="Quality Control" class="expertise-img">
+                    <div class="expertise-body">
+                        <h4>Kontrol Kualitas</h4>
+                        <p>Setiap batch melewati uji rasa (cupping) ketat sebelum disajikan atau dikemas untuk pelanggan.</p>
+                    </div>
+                </div>
+                <div class="expertise-card">
+                    <img src="https://images.unsplash.com/photo-1544144433-d50aff500b91?crop=entropy&cs=tinysrgb&fit=crop&h=300&w=400" alt="Training Center" class="expertise-img">
+                    <div class="expertise-body">
+                        <h4>Pusat Pelatihan</h4>
+                        <p>Barista kami dilatih secara profesional untuk menguasai teknik ekstraksi hingga latte art.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="quote-banner">
+            <h2>Being Good Is Enough For Most People, But Great Is Where <span>Our Journey Starts.</span></h2>
+        </div>
+
+        <section>
+            <h2 class="section-header">Orang Di Belakang Merk</h2>
+            <div class="team-grid">
+                
+                <div class="team-card">
+                    <div class="team-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=crop&h=300&w=300" alt="Team 1">
+                    </div>
+                    <h3>Joni Fahamsa</h3>
+                    <h5>MANAGER GENERAL AFFAIR</h5>
+                    <p>Memastikan operasional berjalan sempurna dan standar pelayanan tertinggi selalu tercapai dari hulu ke hilir.</p>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?crop=entropy&cs=tinysrgb&fit=crop&h=300&w=300" alt="Team 2">
+                    </div>
+                    <h3>Sarah Amalia</h3>
+                    <h5>HEAD ROASTER</h5>
+                    <p>Ahli di balik profil rasa kopi kami, menentukan kurva sangrai terbaik untuk memunculkan karakter asli setiap biji.</p>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?crop=entropy&cs=tinysrgb&fit=crop&h=300&w=300" alt="Team 3">
+                    </div>
+                    <h3>Dimas Arya</h3>
+                    <h5>CHIEF BARISTA</h5>
+                    <p>Menjaga konsistensi rasa dan kualitas ekstraksi di meja bar, memastikan pengalaman sempurna di setiap tegukan.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-header">Pencapaian Kami</h2>
+            <div class="achievement-grid">
+                
+                <div class="achievement-card">
+                    <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?crop=entropy&cs=tinysrgb&fit=crop&h=300&w=500" alt="Store Sidoarjo">
+                    <h4>2024 - EKSPANSI SIDOARJO</h4>
+                    <p>Membuka cabang roastery dan kedai utama untuk menjangkau penikmat kopi di wilayah Jawa Timur secara lebih luas.</p>
+                </div>
+
+                <div class="achievement-card">
+                    <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?crop=entropy&cs=tinysrgb&fit=crop&h=300&w=500" alt="Achievement 2">
+                    <h4>2025 - TOP LOCAL BRAND</h4>
+                    <p>Mendapatkan penghargaan sebagai salah satu brand kopi lokal dengan pertumbuhan dan kualitas layanan terbaik.</p>
+                </div>
+
+                <div class="achievement-card">
+                    <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32b7?crop=entropy&cs=tinysrgb&fit=crop&h=300&w=500" alt="Achievement 3">
+                    <h4>2026 - DIGITALISASI SISTEM</h4>
+                    <p>Meluncurkan sistem pemesanan terintegrasi mandiri demi kenyamanan dan kecepatan pelayanan pelanggan setia kami.</p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>

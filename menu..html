@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Menu - Coffee Frappe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #243028; /* Dark green */
+            --text-light: #d1d5c9; /* Off-white */
+            --accent-brown: #966b42; /* Brown - Darker for Food */
+            --accent-light-brown: #b89369; /* Light Brown - For special items */
+            --white: #ffffff;
+            --dark-card: #2f3e34; /* slightly lighter green for cards */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            overflow-x: hidden;
+            /* Placeholder for leaf background pattern - same as hero */
+            background-image: radial-gradient(#304035 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* Navigation - Same as Hero */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 8%;
+            background-color: var(--bg-color);
+            position: relative;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--text-light);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 40px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent-light-brown);
+        }
+
+        .menu-toggle {
+            display: none;
+            color: var(--accent-light-brown);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Menu Page Content */
+        main {
+            padding: 80px 8% 100px;
+        }
+
+        .menu-title-container {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .menu-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--accent-brown);
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .menu-intro-text {
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.8;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        /* Menu Sections */
+        .menu-section {
+            margin-bottom: 80px;
+        }
+
+        .menu-section-header {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent-brown);
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            border-bottom: 3px solid var(--accent-brown);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .menu-section-intro {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            max-width: 600px;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            gap: 30px;
+        }
+
+        /* Responsive Grid Columns */
+        @media (min-width: 768px) {
+            .menu-grid-2 { grid-template-columns: repeat(2, 1fr); }
+            .menu-grid-3 { grid-template-columns: repeat(3, 1fr); }
+            .menu-grid-4 { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        /* Menu Cards */
+        .menu-card {
+            background-color: var(--dark-card); /* slightly lighter dark for normal cards */
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid transparent;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-light-brown);
+        }
+
+        .menu-card-img-container {
+            width: 100%;
+            height: 250px; /* fixed height for consistency */
+            overflow: hidden;
+        }
+
+        .menu-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .menu-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .menu-card-body {
+            padding: 25px;
+            flex-grow: 1;
+        }
+
+        .menu-card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-light-brown);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .menu-card-description {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        /* Accent Card Styles (Modifikasi dari Kuning/Hijau menjadi Cokelat Premium) */
+        .menu-card.accent-light { /* For other accents, e.g., barista choice (dulu kuning) */
+            background-color: var(--accent-light-brown); /* Light brown */
+            border-color: var(--accent-light-brown);
+        }
+
+        .menu-card.accent-light .menu-card-title {
+            color: var(--bg-color); /* Dark text for contrast */
+        }
+
+        .menu-card.accent-light .menu-card-description {
+            color: var(--bg-color);
+            opacity: 1;
+        }
+
+        .menu-card.accent-brown { /* For food and premium items (dulu hijau muda) */
+            background-color: var(--accent-brown); /* Darker brown */
+            border-color: var(--accent-brown);
+        }
+
+        .menu-card.accent-brown .menu-card-title {
+            color: var(--bg-color); /* Dark text for contrast */
+        }
+
+        .menu-card.accent-brown .menu-card-description {
+            color: var(--bg-color);
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .menu-title { font-size: 2.8rem; }
+            .menu-card-img-container { height: 200px; }
+        }
+
+        @media (max-width: 768px) {
+            nav ul { display: none; }
+            .menu-toggle { display: block; }
+            .menu-title { font-size: 2.2rem; }
+            .menu-section-header { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">
+            <i class="fa-solid fa-mug-hot"></i>
+            <div>EST 22<br>COFFEE</div>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#" class="active">Menu</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </nav>
+        <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
+    </header>
+
+    <main>
+        <div class="menu-title-container">
+            <h1 class="menu-title">Buku Menu</h1>
+            <p class="menu-intro-text">Ini adalah daftar lengkap menu kami, dari minuman kopi premium hingga makanan lezat yang siap memanjakan lidah Anda. Selamat memilih!</p>
+        </div>
+
+        <section class="menu-section">
+            <h2 class="menu-section-header">Coffee-Based Drinks</h2>
+            <p class="menu-section-intro">Nikmati berbagai kreasi kopi kami, dibuat dari biji kopi pilihan untuk pengalaman rasa yang otentik dan memuaskan.</p>
+            <div class="menu-grid menu-grid-2">
+                
+                <div class="menu-card normal">
+                    <div class="menu-card-img-container">
+                        <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?crop=entropy&cs=tinysrgb&fit=crop&h=500&w=800" alt="Latte Bean">
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">LATTE BEAN</h3>
+                        <p class="menu-card-description">Perpaduan harmonis espresso segar dan susu lembut untuk mengawali hari Anda.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card normal">
+                    <div class="menu-card-img-container">
+                        <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?crop=entropy&cs=tinysrgb&fit=crop&h=500&w=800" alt="Espresso-Based">
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">ESPRESSO-BASED</h3>
+                        <p class="menu-card-description">Berbagai minuman klasik espresso dengan rasa yang kuat dan karakter yang khas.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card accent-light">
+                    <div class="menu-card-img-container">
+                        <img src="https://images.unsplash.com/photo-1512568400610-62da28bc8a13?crop=entropy&cs=tinysrgb&fit=crop&h=500&w=800" alt="Pilihan Barista">
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">PILIHAN BARISTA</h3>
+                        <p class="menu-card-description">Kreasi unik barista kami, menggunakan biji kopi pilihan edisi terbatas dengan rasa kompleks.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card normal">
+                    <div class="menu-card-img-container">
+                        <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?crop=entropy&cs=tinysrgb&fit=crop&h=500&w=800" alt="Frappe">
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">COFFEE FRAPPE</h3>
+                        <p class="menu-card-description">Minuman kopi dingin yang creamy dengan sentuhan es batu dan krim lembut di atasnya.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="menu-section">
+            <h2 class="menu-section-header">Non-Coffee Drinks</h2>
+            <p class="menu-section-intro">Bagi Anda yang menyukai alternatif selain kopi, kami menawarkan berbagai pilihan minuman menyegarkan dan menenangkan.</p>
+            <div class="menu-grid menu-grid-2">
+                
+                <div class="menu-card normal">
+                    <div class="menu-card-img-container">
+                        <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?crop=entropy&cs=tinysrgb&fit=crop&h=500&w=800" alt="Chocolate">
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">CHOCOLATE</h3>
+                        <p class="menu-card-description">Minuman cokelat premium yang kental dan penuh rasa, cocok untuk bersantai.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card normal">
+                    <div class="menu-card-img-container">
+                        <img src="https://images.unsplash.com/photo-1597318181409-cf64d0b5d8a2?crop=entropy&cs=tinysrgb&fit=crop&h=500&w=800" alt="Tea">
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">TEA (TEH)</h3>
+                        <p class="menu-card-description">Berbagai jenis teh aromatik pilihan untuk menyegarkan dan menenangkan pikiran Anda.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="menu-section">
+            <h2 class="menu-section-header">Food and Snacks</h2>
+            <p class="menu-section-intro">Nikmati makanan lezat kami untuk menemani waktu ngopi Anda, dari camilan ringan hingga hidangan berat.</p>
+            <div class="menu-grid menu-grid-2">
+                
+                <div class="menu-card accent-brown">
+                    <div class="menu-card-img-container">
+                        <img src="https://images.unsplash.com/photo-1621213459468-d62f43be7c57?crop=entropy&cs=tinysrgb&fit=crop&h=500&w=800" alt="Nasi Goreng">
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">NASI GORENG</h3>
+                        <p class="menu-card-description">Nasi goreng khas kami dengan bumbu rempah dan pilihan topping yang menggugah selera.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card accent-brown">
+                    <div class="menu-card-img-container">
+                        <img src="https://images.unsplash.com/photo-1549416878-b9ca95e0b960?crop=entropy&cs=tinysrgb&fit=crop&h=500&w=800" alt="Pastry">
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">PASTRY</h3>
+                        <p class="menu-card-description">Berbagai pilihan pastry panggang yang renyah dan lezat untuk teman minum kopi Anda.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card normal">
+                    <div class="menu-card-img-container">
+                        <img src="https://images.unsplash.com/photo-1535141192574-5d4897c12636?crop=entropy&cs=tinysrgb&fit=crop&h=500&w=800" alt="Cake">
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">CAKE (KUE)</h3>
+                        <p class="menu-card-description">Potongan kue lembut dengan rasa yang seimbang untuk melengkapi keseruan waktu Anda.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card accent-brown">
+                    <div class="menu-card-img-container">
+                        <img src="https://images.unsplash.com/photo-1576107232684-1279f390859f?crop=entropy&cs=tinysrgb&fit=crop&h=500&w=800" alt="Fries">
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">FRIES (KENTANG)</h3>
+                        <p class="menu-card-description">Camilan kentang goreng renyah dengan saus cocolan khas kami.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="menu-section">
+            <h2 class="menu-section-header">Coffee Pack & Coffee Ranking</h2>
+            <p class="menu-section-intro">Bawa pulang biji kopi terbaik kami dan rasakan keahlian barista kami di rumah. Temukan juga biji kopi teratas kami!</p>
+            <div class="menu-grid menu-grid-3">
+                
+                <div class="menu-card normal">
+                    <div class="menu-card-img-container">
+                        <img src="https://images.unsplash.com/photo-1595434091143-b375ace5d468?crop=entropy&cs=tinysrgb&fit=crop&h=500&w=800" alt="Coffee Ranking">
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">COFFEE RANKING</h3>
+                        <p class="menu-card-description">Daftar biji kopi teratas kami, berdasarkan popularitas dan penilaian kualitas kami.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card accent-brown">
+                    <div class="menu-card-img-container">
+                        <img src="https://images.unsplash.com/photo-1514432324605-6ed47f75172f?crop=entropy&cs=tinysrgb&fit=crop&h=500&w=800" alt="Best Beans">
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">BIJI KOPI TERBAIK</h3>
+                        <p class="menu-card-description">Biji kopi premium edisi terbatas dengan karakteristik rasa yang luar biasa dan kompleks.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card normal">
+                    <div class="menu-card-img-container">
+                        <img src="https://images.unsplash.com/photo-1514432324605-6ed47f75172f?crop=entropy&cs=tinysrgb&fit=crop&h=500&w=800" alt="Best Beans">
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">BIJI KOPI TERBAIK</h3>
+                        <p class="menu-card-description">Pilihan biji kopi single-origin untuk pengalaman rasa yang lebih terfokus dan eksploratif.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="menu-section">
+            <h2 class="menu-section-header">Merchandise</h2>
+            <p class="menu-section-intro">Tunjukkan kecintaan Anda pada kopi dengan merchandise eksklusif kami, dari alat pembuat kopi hingga pakaian!</p>
+            <div class="menu-grid menu-grid-4">
+                
+                <div class="menu-card normal">
+                    <div class="menu-card-img-container">
+                        <img src="https://images.unsplash.com/photo-1579532562304-4b4ed6032179?crop=entropy&cs=tinysrgb&fit=crop&h=500&w=800" alt="Grinder">
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">GILINGAN KOPI</h3>
+                        <p class="menu-card-description">Alat giling kopi berkualitas untuk kesegaran rasa kopi terbaik di rumah.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card normal">
+                    <div class="menu-card-img-container">
+                        <img src="https://images.unsplash.com/photo-1620023306646-6019b889eb20?crop=entropy&cs=tinysrgb&fit=crop&h=500&w=800" alt="Mug">
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">MUG KOPI</h3>
+                        <p class="menu-card-description">Mug eksklusif dengan desain unik sebagai teman minum kopi Anda.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card normal">
+                    <div class="menu-card-img-container">
+                        <img src="https://images.unsplash.com/photo-1543372996-5121666113b2?crop=entropy&cs=tinysrgb&fit=crop&h=500&w=800" alt="Coffee Maker">
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">MESIN KOPI</h3>
+                        <p class="menu-card-description">Mesin pembuat kopi rumah tangga untuk kemudahan dan rasa kopi otentik.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card normal">
+                    <div class="menu-card-img-container">
+                        <img src="https://images.unsplash.com/photo-1614002773229-3b95a8946e4b?crop=entropy&cs=tinysrgb&fit=crop&h=500&w=800" alt="Coffee Bag">
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">TAS KOPI</h3>
+                        <p class="menu-card-description">Tas eksklusif dengan desain unik sebagai tas kopi Anda.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="menu-section">
+            <h2 class="menu-section-header">Hampers</h2>
+            <p class="menu-section-intro">Paket hadiah istimewa untuk teman dan keluarga Anda, berisi pilihan kopi terbaik kami!</p>
+            
+            <div class="menu-card normal">
+                <div class="menu-card-img-container">
+                    <img src="https://images.unsplash.com/photo-1588726555198-d0f98e54e4c9?crop=entropy&cs=tinysrgb&fit=crop&h=500&w=800" alt="Hampers">
+                </div>
+                <div class="menu-card-body">
+                    <h3 class="menu-card-title">PAKET HADIAH JANGAN LUPA KOPI</h3>
+                    <p class="menu-card-description">Paket hadiah spesial dengan biji kopi terbaik dan merchandise eksklusif kami!</p>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
