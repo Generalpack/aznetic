@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Kami - Coffee Frappe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg-color: #ffffff; --text-main: #1a1a1a; --text-muted: #666666; --accent-gold: #c59b6d; --accent-dark: #111111; --card-bg: #f9f9f9; --border-color: #eaeaea; --white: #ffffff; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; background-image: radial-gradient(#f0f0f0 1px, transparent 1px); background-size: 20px 20px; }
+        
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; background: rgba(255,255,255,0.95); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.05); }
+        .logo { display: flex; align-items: center; gap: 10px; font-weight: 900; letter-spacing: 1px; font-size: 1.2rem; color: var(--accent-dark); text-decoration: none; }
+        .logo i { font-size: 2rem; color: var(--accent-gold); }
+        
+        nav ul { list-style: none; display: flex; gap: 40px; }
+        nav a { text-decoration: none; color: var(--text-main); font-weight: 700; font-size: 0.95rem; transition: 0.3s; }
+        nav a:hover, nav a.active { color: var(--accent-gold); }
+        .menu-toggle { display: none; font-size: 1.8rem; color: var(--accent-dark); cursor: pointer; }
+
+        main { padding: 60px 8% 100px; }
+        .page-title { text-align: center; font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; color: var(--accent-dark); text-transform: uppercase; margin-bottom: 60px; }
+        .section-header { font-size: 1.8rem; font-weight: 800; color: var(--accent-dark); border-bottom: 3px solid var(--accent-gold); display: inline-block; padding-bottom: 8px; margin-bottom: 30px; text-transform: uppercase; }
+
+        .story-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px; align-items: center; margin-bottom: 80px; }
+        .story-text p { line-height: 1.8; color: var(--text-muted); margin-bottom: 20px; }
+        .story-highlight { background: var(--card-bg); color: var(--accent-dark); padding: 30px; border-radius: 10px; font-weight: 600; font-style: italic; border-left: 5px solid var(--accent-gold); line-height: 1.6; }
+        .story-image img { width: 100%; border-radius: 15px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); object-fit: cover; aspect-ratio: 4/3; }
+
+        .quote-banner { background: var(--accent-dark); color: var(--white); padding: 60px 20px; text-align: center; border-radius: 15px; margin: 60px 0; }
+        .quote-banner h2 { font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 800; line-height: 1.4; max-width: 800px; margin: 0 auto; }
+        .quote-banner span { color: var(--accent-gold); }
+
+        .grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 80px; }
+        .card { background: var(--white); border-radius: 15px; overflow: hidden; border: 1px solid var(--border-color); text-align: center; padding-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.03); }
+        .card img { width: 100%; height: 200px; object-fit: cover; margin-bottom: 20px; }
+        .card h4 { color: var(--accent-dark); margin-bottom: 10px; padding: 0 15px; }
+        .card p { font-size: 0.9rem; color: var(--text-muted); padding: 0 15px; line-height: 1.6; }
+
+        @media (max-width: 768px) {
+            nav ul { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: var(--white); padding: 20px; box-shadow: 0 10px 15px rgba(0,0,0,0.05); text-align: center; }
+            nav ul.show { display: flex; }
+            .menu-toggle { display: block; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo"><i class="fa-solid fa-mug-hot"></i><div>EST 22<br>COFFEE</div></a>
+        <nav>
+            <ul id="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="services.html" class="active">Services</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+        <div class="menu-toggle" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
+    </header>
+
+    <main>
+        <h1 class="page-title">Tentang Kami</h1>
+
+        <section class="story-container">
+            <div class="story-text">
+                <h2 class="section-header">Cerita Kami</h2>
+                <p>Dimulai dari sebuah kedai kecil, kami berdedikasi untuk menyajikan biji kopi Nusantara terbaik. Melalui proses kurasi yang ketat dan pemanggangan yang presisi, kami menjaga standar kualitas di setiap cangkirnya.</p>
+                <div class="story-highlight">
+                    "Kopi yang hebat bukan hanya tentang rasa, tetapi dedikasi dan cerita orang-orang di baliknya."
+                </div>
+            </div>
+            <div class="story-image">
+                <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80">
+            </div>
+        </section>
+
+        <div class="quote-banner">
+            <h2>Being Good Is Enough For Most People, But Great Is Where <span>Our Journey Starts.</span></h2>
+        </div>
+
+        <h2 class="section-header">Pencapaian Kami</h2>
+        <div class="grid-layout">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80">
+                <h4>2024 - EKSPANSI SIDOARJO</h4>
+                <p>Membuka cabang roastery dan kedai utama untuk menjangkau penikmat kopi di Jawa Timur.</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=600&q=80">
+                <h4>2025 - TOP LOCAL BRAND</h4>
+                <p>Penghargaan brand kopi lokal dengan pertumbuhan dan kualitas layanan terbaik.</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32b7?auto=format&fit=crop&w=600&q=80">
+                <h4>2026 - DIGITALISASI SISTEM</h4>
+                <p>Meluncurkan sistem pemesanan cerdas demi kenyamanan pelanggan setia kami.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function toggleMenu() { document.getElementById('nav-menu').classList.toggle('show'); }
+    </script>
+</body>
+</html>

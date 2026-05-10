@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kasir - Coffee Frappe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Montserrat', sans-serif; background: #f4f4f4; padding: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 10px rgba(0,0,0,0.05); }
+        h1 { color: #111; font-weight: 800; }
+        .btn-refresh { background: #c59b6d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        
+        .order-card { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 5px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; border-left: 5px solid #111; }
+        .order-info h3 { color: #c59b6d; margin: 0 0 5px 0; }
+        .order-info p { margin: 5px 0; color: #555; font-size: 0.9rem; }
+        .btn-print { background: #111; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+
+        /* === FORMAT STRUK UNTUK PRINTER THERMAL === */
+        #struk-print { display: none; }
+        
+        @media print {
+            body * { visibility: hidden; } /* Sembunyikan UI Kasir */
+            #struk-print, #struk-print * { visibility: visible; } /* Tampilkan hanya struk */
+            #struk-print {
+                position: absolute; left: 0; top: 0;
+                width: 58mm; /* Ukuran kertas kasir umum */
+                font-family: monospace; font-size: 12px; color: black;
+                padding: 10px;
+            }
+            .struk-header { text-align: center; margin-bottom: 10px; border-bottom: 1px dashed black; padding-bottom: 5px; }
+            .struk-item { display: flex; justify-content: space-between; margin-bottom: 5px; }
+            .struk-total { font-weight: bold; border-top: 1px dashed black; padding-top: 5px; margin-top: 5px; text-align: right; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Dashboard Kasir</h1>
+        <button class="btn-refresh" onclick="fetchOrders()">🔄 Segarkan Pesanan Baru</button>
+    </div>
+
+    <div id="orderList">
+        <p>Memuat pesanan...</p>
+    </div>
+
+    <div id="struk-print">
+        <div class="struk-header">
+            <h3>COFFEE FRAPPE</h3>
+            <p>Sidoarjo, Jawa Timur</p>
+        </div>
+        <p>Order: <span id="p-orderId"></span></p>
+        <p>Nama: <span id="p-nama"></span></p>
+        <p>----------------------</p>
+        <div id="p-items"></div>
+        <p>----------------------</p>
+        <div class="struk-total">TOTAL: Rp <span id="p-total"></span></div>
+        <p style="text-align: center; margin-top: 10px;">Metode: <span id="p-pay"></span></p>
+        <p style="text-align: center;">Terima Kasih!</p>
+    </div>
+
+    <script>
+        // === MASUKKAN URL GOOGLE APPS SCRIPT ANDA DI SINI ===
+        const scriptURL = 'MASUKKAN_URL_WEB_APP_ANDA_DISINI';
+
+        async function fetchOrders() {
+            const list = document.getElementById('orderList');
+            list.innerHTML = '<p>Memuat...</p>';
+            
+            try {
+                const response = await fetch(scriptURL);
+                const orders = await response.json();
+                
+                list.innerHTML = '';
+                if(orders.length === 0) {
+                    list.innerHTML = '<p>Belum ada pesanan baru.</p>';
+                    return;
+                }
+
+                orders.forEach(order => {
+                    // Stringify data untuk dikirim ke fungsi print
+                    const orderData = JSON.stringify(order).replace(/'/g, "\\'");
+                    
+                    list.innerHTML += `
+                        <div class="order-card">
+                            <div class="order-info">
+                                <h3>${order.orderId} - ${order.nama}</h3>
+                                <p><strong>Item:</strong> ${order.detail}</p>
+                                <p><strong>Total:</strong> Rp ${order.total.toLocaleString('id-ID')} | <strong>Pembayaran:</strong> ${order.pembayaran}</p>
+                            </div>
+                            <button class="btn-print" onclick='cetakStruk(${orderData})'>🖨️ Cetak Struk</button>
+                        </div>
+                    `;
+                });
+            } catch (err) {
+                list.innerHTML = '<p>Gagal mengambil data.</p>';
+            }
+        }
+
+        // Fungsi Otomatis Format & Cetak Struk
+        function cetakStruk(order) {
+            document.getElementById('p-orderId').innerText = order.orderId;
+            document.getElementById('p-nama').innerText = order.nama;
+            document.getElementById('p-items').innerText = order.detail; // Menampilkan daftar pesanan
+            document.getElementById('p-total').innerText = order.total.toLocaleString('id-ID');
+            document.getElementById('p-pay').innerText = order.pembayaran;
+
+            // Trigger Print bawaan browser (otomatis memotong ukuran kertas sesuai CSS)
+            window.print();
+        }
+
+        // Otomatis load saat halaman dibuka
+        window.onload = fetchOrders;
+    </script>
+</body>
+</html>

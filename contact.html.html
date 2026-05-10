@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontak Kami - Coffee Frappe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg-color: #ffffff; --text-main: #1a1a1a; --text-muted: #666666; --accent-gold: #c59b6d; --accent-dark: #111111; --card-bg: #f9f9f9; --border-color: #eaeaea; --white: #ffffff; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; background-image: radial-gradient(#f0f0f0 1px, transparent 1px); background-size: 20px 20px; display: flex; flex-direction: column; min-height: 100vh; }
+        
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; background: rgba(255,255,255,0.95); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.05); }
+        .logo { display: flex; align-items: center; gap: 10px; font-weight: 900; letter-spacing: 1px; font-size: 1.2rem; color: var(--accent-dark); text-decoration: none; }
+        .logo i { font-size: 2rem; color: var(--accent-gold); }
+        
+        nav ul { list-style: none; display: flex; gap: 40px; }
+        nav a { text-decoration: none; color: var(--text-main); font-weight: 700; font-size: 0.95rem; transition: 0.3s; }
+        nav a:hover, nav a.active { color: var(--accent-gold); }
+        .menu-toggle { display: none; font-size: 1.8rem; color: var(--accent-dark); cursor: pointer; }
+
+        main { flex: 1; padding: 60px 8% 80px; }
+        .page-title { text-align: center; font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; color: var(--accent-dark); text-transform: uppercase; margin-bottom: 60px; }
+        
+        .contact-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 60px; margin-bottom: 80px; }
+        .contact-image-wrapper img { width: 100%; height: 350px; object-fit: cover; border-radius: 15px; margin-bottom: 25px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .contact-image-wrapper h3 { font-size: 1.5rem; color: var(--accent-gold); margin-bottom: 15px; font-weight: 800; }
+        .contact-image-wrapper p { font-size: 0.95rem; line-height: 1.6; font-style: italic; color: var(--text-muted); }
+
+        .info-header { display: flex; align-items: center; gap: 15px; font-size: 1.2rem; font-weight: 800; color: var(--accent-dark); text-transform: uppercase; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--accent-gold); }
+        .info-header i { font-size: 1.5rem; color: var(--accent-gold); }
+        .location-block { margin-bottom: 25px; }
+        .location-block h4 { font-size: 1rem; color: var(--accent-dark); margin-bottom: 8px; text-transform: uppercase; }
+        .location-block p { font-size: 0.9rem; line-height: 1.6; color: var(--text-muted); }
+
+        .social-section { text-align: center; padding-top: 60px; border-top: 1px solid var(--border-color); }
+        .social-section h2 { font-size: 2rem; font-weight: 800; margin-bottom: 40px; color: var(--accent-dark); }
+        .social-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .social-item { background: var(--card-bg); padding: 30px 20px; border-radius: 15px; border: 1px solid var(--border-color); transition: 0.3s; }
+        .social-item:hover { transform: translateY(-5px); border-color: var(--accent-gold); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .social-item i { font-size: 2.5rem; color: var(--accent-gold); margin-bottom: 15px; }
+        .social-item h4 { font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; }
+        .social-item a { text-decoration: none; font-weight: 700; color: var(--accent-dark); font-size: 1rem; }
+        
+        footer { background: var(--accent-dark); color: var(--white); text-align: center; padding: 25px; font-size: 0.85rem; }
+
+        @media (max-width: 768px) {
+            nav ul { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: var(--white); padding: 20px; box-shadow: 0 10px 15px rgba(0,0,0,0.05); text-align: center; }
+            nav ul.show { display: flex; }
+            .menu-toggle { display: block; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo"><i class="fa-solid fa-mug-hot"></i><div>EST 22<br>COFFEE</div></a>
+        <nav>
+            <ul id="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html" class="active">Contact Us</a></li>
+            </ul>
+        </nav>
+        <div class="menu-toggle" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
+    </header>
+
+    <main>
+        <h1 class="page-title">Kontak Kami</h1>
+
+        <div class="contact-layout">
+            <div class="contact-image-wrapper">
+                <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=600&q=80">
+                <h3>SEJAK 2022</h3>
+                <p>"Kopi terbaik adalah kopi yang diseduh dengan hati serta dinikmati bersama di tempat yang nyaman."</p>
+            </div>
+
+            <div class="contact-info-wrapper">
+                <div class="info-section">
+                    <div class="info-header"><i class="fa-regular fa-building"></i><span>OFFICE & ROASTERY</span></div>
+                    <div class="location-block">
+                        <h4>SIDOARJO (HEADQUARTER)</h4>
+                        <p>Jl. Pahlawan No. 45, Sidoarjo, Jawa Timur 61212<br>Telp. (+62) 811 2233 4455</p>
+                    </div>
+                </div>
+
+                <div class="info-section" style="margin-top: 40px;">
+                    <div class="info-header"><i class="fa-solid fa-store"></i><span>STORES</span></div>
+                    <p style="color: var(--text-muted); line-height: 1.6;">Jaringan kedai kopi premium yang tersebar di kota besar Indonesia:<br><br>
+                    <strong>SIDOARJO - SURABAYA - MALANG - GRESIK - MOJOKERTO</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="social-section">
+            <h2>JEJARING KONTAK</h2>
+            <div class="social-grid">
+                <div class="social-item"><i class="fa-brands fa-instagram"></i><h4>Instagram</h4><a href="#">@CoffeeFrappe.ID</a></div>
+                <div class="social-item"><i class="fa-brands fa-facebook"></i><h4>Facebook</h4><a href="#">Coffee Frappe ID</a></div>
+                <div class="social-item"><i class="fa-brands fa-whatsapp"></i><h4>WhatsApp</h4><a href="#">0811-2233-4455</a></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>&copy; 2026 Coffee Frappe. All rights reserved.</footer>
+
+    <script>
+        function toggleMenu() { document.getElementById('nav-menu').classList.toggle('show'); }
+    </script>
+</body>
+</html>

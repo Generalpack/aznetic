@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Frappe - Premium Quality</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { 
+            --bg-color: #ffffff; 
+            --text-main: #1a1a1a; 
+            --text-muted: #666666; 
+            --accent-gold: #c59b6d; 
+            --accent-dark: #111111; 
+            --card-bg: #f8f9fa; 
+            --white: #ffffff; 
+            --border-color: #eaeaea;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; background-image: radial-gradient(#f0f0f0 1px, transparent 1px); background-size: 20px 20px; }
+        
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; background: rgba(255,255,255,0.95); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.05); }
+        .logo { display: flex; align-items: center; gap: 10px; font-weight: 900; letter-spacing: 1px; font-size: 1.2rem; color: var(--accent-dark); text-decoration: none; }
+        .logo i { font-size: 2rem; color: var(--accent-gold); }
+        
+        nav ul { list-style: none; display: flex; gap: 40px; transition: 0.3s; }
+        nav a { text-decoration: none; color: var(--text-main); font-weight: 700; font-size: 0.95rem; transition: 0.3s; }
+        nav a:hover, nav a.active { color: var(--accent-gold); }
+        .menu-toggle { display: none; font-size: 1.8rem; color: var(--accent-dark); cursor: pointer; }
+
+        main { display: flex; align-items: center; justify-content: space-between; padding: 60px 8%; min-height: 85vh; gap: 50px; flex-wrap: wrap; }
+        .hero-text { flex: 1; min-width: 300px; }
+        .hero-text h1 { font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 900; line-height: 1; text-transform: uppercase; margin-bottom: 20px; color: var(--accent-dark); }
+        .hero-text p { font-size: 1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 30px; max-width: 450px; }
+        
+        .btn { background-color: var(--accent-dark); color: var(--white); border: none; padding: 15px 35px; font-size: 1rem; font-weight: 800; border-radius: 30px; cursor: pointer; transition: 0.3s; }
+        .btn:hover { background-color: var(--accent-gold); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(197, 155, 109, 0.3); }
+        
+        .hero-image { flex: 1; display: flex; justify-content: center; position: relative; min-width: 300px; }
+        .circle-img { width: 100%; max-width: 500px; aspect-ratio: 1/1; border-radius: 50%; object-fit: cover; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+        
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .modal-content { background: var(--white); padding: 40px; border-radius: 15px; width: 90%; max-width: 500px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; }
+        .close-btn { position: absolute; top: 20px; right: 20px; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { font-weight: 600; font-size: 0.9rem; margin-bottom: 5px; display: block; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg); font-size: 1rem; outline: none; }
+        .form-group input:focus, .form-group select:focus { border-color: var(--accent-gold); }
+
+        @media (max-width: 768px) {
+            nav ul { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: var(--white); padding: 20px; box-shadow: 0 10px 15px rgba(0,0,0,0.05); text-align: center; }
+            nav ul.show { display: flex; }
+            .menu-toggle { display: block; }
+            main { text-align: center; padding-top: 40px; }
+            .hero-text p { margin: 0 auto 30px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo"><i class="fa-solid fa-mug-hot"></i><div>EST 22<br>COFFEE</div></a>
+        <nav>
+            <ul id="nav-menu">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+        <div class="menu-toggle" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
+    </header>
+
+    <main>
+        <section class="hero-text">
+            <h3 style="color: var(--accent-gold); letter-spacing: 2px; margin-bottom: 10px; font-weight: 800;">THE PREMIUM QUALITY</h3>
+            <h1>Coffee<br>Frappe</h1>
+            <p>Nikmati perpaduan sempurna biji kopi pilihan dan krim lembut. Kesegaran yang disajikan khusus untuk menemani hari produktif Anda.</p>
+            <button class="btn" onclick="openModal()">Pesan Sekarang</button>
+        </section>
+        <section class="hero-image">
+            <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=800&q=80" class="circle-img" alt="Coffee Frappe">
+        </section>
+    </main>
+
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <i class="fa-solid fa-xmark close-btn" onclick="closeModal()"></i>
+            <h2 style="color:var(--accent-dark); margin-bottom:20px;">Detail Pemesanan</h2>
+            <form onsubmit="processOrder(event)">
+                <div class="form-group"><label>Nama Lengkap</label><input type="text" id="custName" required></div>
+                <div class="form-group"><label>Pilihan Produk</label>
+                    <select id="custProduct">
+                        <option>Coffee Frappe Original - Rp 35.000</option>
+                        <option>Caramel Frappe - Rp 40.000</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Metode Pembayaran</label>
+                    <select id="custPay"><option>QRIS</option><option>Transfer Bank</option><option>E-Wallet</option></select>
+                </div>
+                <button type="submit" class="btn" style="width:100%; margin-top: 10px;" id="btnSubmit">Kirim Pesanan</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() { document.getElementById('nav-menu').classList.toggle('show'); }
+        function openModal() { document.getElementById('checkoutModal').style.display='flex'; }
+        function closeModal() { document.getElementById('checkoutModal').style.display='none'; }
+        window.onclick = function(e) { if(e.target.id == 'checkoutModal') closeModal(); }
+
+        async function processOrder(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnSubmit');
+            btn.disabled = true; btn.innerText = 'Memproses...';
+
+            const payload = {
+                nama: document.getElementById('custName').value,
+                produk: document.getElementById('custProduct').value,
+                pembayaran: document.getElementById('custPay').value
+            };
+
+            const scriptURL = 'MASUKKAN_URL_WEB_APP_ANDA_DISINI';
+
+            if(scriptURL === 'MASUKKAN_URL_WEB_APP_ANDA_DISINI'){
+                alert("URL Apps Script belum dimasukkan. Simulasi sukses. Data: " + payload.nama);
+                closeModal();
+                btn.disabled = false; btn.innerText = 'Kirim Pesanan';
+                return;
+            }
+
+            try {
+                const response = await fetch(scriptURL, { method: 'POST', body: JSON.stringify(payload) });
+                const res = await response.json();
+                if(res.result === 'success') { alert('Pesanan berhasil dicatat!'); closeModal(); e.target.reset(); }
+            } catch (err) { alert('Terjadi kesalahan koneksi ke server pemesanan!'); }
+            btn.disabled = false; btn.innerText = 'Kirim Pesanan';
+        }
+    </script>
+</body>
+</html>
