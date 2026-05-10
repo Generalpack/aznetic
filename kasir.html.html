@@ -3,115 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kasir - Coffee Frappe</title>
+    <title>Sistem Kasir - Coffee Frappe</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Montserrat', sans-serif; background: #f4f4f4; padding: 20px; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 10px rgba(0,0,0,0.05); }
-        h1 { color: #111; font-weight: 800; }
-        .btn-refresh { background: #c59b6d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        body { font-family: 'Montserrat', sans-serif; background: #f0f2f5; padding: 30px; margin: 0; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        h1 { color: #111; }
+        .btn-download { background: #198754; color: white; border: none; padding: 10px 20px; border-radius: 5px; font-weight: 600; cursor: pointer; }
+        .btn-download:hover { background: #157347; }
         
-        .order-card { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 5px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; border-left: 5px solid #111; }
-        .order-info h3 { color: #c59b6d; margin: 0 0 5px 0; }
-        .order-info p { margin: 5px 0; color: #555; font-size: 0.9rem; }
-        .btn-print { background: #111; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-
-        /* === FORMAT STRUK UNTUK PRINTER THERMAL === */
-        #struk-print { display: none; }
-        
-        @media print {
-            body * { visibility: hidden; } /* Sembunyikan UI Kasir */
-            #struk-print, #struk-print * { visibility: visible; } /* Tampilkan hanya struk */
-            #struk-print {
-                position: absolute; left: 0; top: 0;
-                width: 58mm; /* Ukuran kertas kasir umum */
-                font-family: monospace; font-size: 12px; color: black;
-                padding: 10px;
-            }
-            .struk-header { text-align: center; margin-bottom: 10px; border-bottom: 1px dashed black; padding-bottom: 5px; }
-            .struk-item { display: flex; justify-content: space-between; margin-bottom: 5px; }
-            .struk-total { font-weight: bold; border-top: 1px dashed black; padding-top: 5px; margin-top: 5px; text-align: right; }
-        }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #111; color: white; }
+        tr:hover { background: #f9f9f9; }
+        .badge { background: #ffc107; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+        #status { font-size: 0.9rem; color: #666; margin-top: 10px; display: block; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>Dashboard Kasir</h1>
-        <button class="btn-refresh" onclick="fetchOrders()">🔄 Segarkan Pesanan Baru</button>
+        <h1>Dashboard Kasir <span id="orderCount" style="color:#c59b6d"></span></h1>
+        <button class="btn-download" onclick="downloadCSV()"><i class="fa-solid fa-file-excel"></i> Download Laporan (CSV)</button>
     </div>
 
-    <div id="orderList">
-        <p>Memuat pesanan...</p>
-    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Waktu Pesanan</th>
+                <th>Nama Pelanggan</th>
+                <th>Menu Dipesan</th>
+                <th>Metode Bayar</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <tr><td colspan="5" style="text-align:center;">Memuat data dari server...</td></tr>
+        </tbody>
+    </table>
+    <span id="status">Terhubung ke Server. Update otomatis setiap 5 detik...</span>
 
-    <div id="struk-print">
-        <div class="struk-header">
-            <h3>COFFEE FRAPPE</h3>
-            <p>Sidoarjo, Jawa Timur</p>
-        </div>
-        <p>Order: <span id="p-orderId"></span></p>
-        <p>Nama: <span id="p-nama"></span></p>
-        <p>----------------------</p>
-        <div id="p-items"></div>
-        <p>----------------------</p>
-        <div class="struk-total">TOTAL: Rp <span id="p-total"></span></div>
-        <p style="text-align: center; margin-top: 10px;">Metode: <span id="p-pay"></span></p>
-        <p style="text-align: center;">Terima Kasih!</p>
-    </div>
+    <audio id="notifSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
 
     <script>
-        // === MASUKKAN URL GOOGLE APPS SCRIPT ANDA DI SINI ===
-        const scriptURL = 'MASUKKAN_URL_WEB_APP_ANDA_DISINI';
+        // MASUKKAN URL GOOGLE APPS SCRIPT ANDA DI SINI
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbwC4rTG1HXvWzqdhu3R2R9RhQlK8Rtx5sDTF_j5EDVMIvqqDeUSDAdL7dthrXGA9OAG/exec'; 
+        let currentOrderCount = 0;
+        let globalOrders = [];
 
         async function fetchOrders() {
-            const list = document.getElementById('orderList');
-            list.innerHTML = '<p>Memuat...</p>';
-            
             try {
-                const response = await fetch(scriptURL);
+                const response = await fetch(GAS_URL + "?action=getOrders");
                 const orders = await response.json();
+                globalOrders = orders;
                 
-                list.innerHTML = '';
-                if(orders.length === 0) {
-                    list.innerHTML = '<p>Belum ada pesanan baru.</p>';
-                    return;
+                // Jika ada pesanan baru, bunyikan alarm
+                if(orders.length > currentOrderCount) {
+                    if(currentOrderCount > 0) { 
+                        document.getElementById('notifSound').play().catch(e => console.log("Izin audio diperlukan browser")); 
+                    }
+                    currentOrderCount = orders.length;
+                    document.getElementById('orderCount').innerText = `(${currentOrderCount} Pesanan)`;
+                    updateTable(orders);
                 }
-
-                orders.forEach(order => {
-                    // Stringify data untuk dikirim ke fungsi print
-                    const orderData = JSON.stringify(order).replace(/'/g, "\\'");
-                    
-                    list.innerHTML += `
-                        <div class="order-card">
-                            <div class="order-info">
-                                <h3>${order.orderId} - ${order.nama}</h3>
-                                <p><strong>Item:</strong> ${order.detail}</p>
-                                <p><strong>Total:</strong> Rp ${order.total.toLocaleString('id-ID')} | <strong>Pembayaran:</strong> ${order.pembayaran}</p>
-                            </div>
-                            <button class="btn-print" onclick='cetakStruk(${orderData})'>🖨️ Cetak Struk</button>
-                        </div>
-                    `;
-                });
-            } catch (err) {
-                list.innerHTML = '<p>Gagal mengambil data.</p>';
+            } catch (error) {
+                console.log("Menunggu sinkronisasi...");
             }
         }
 
-        // Fungsi Otomatis Format & Cetak Struk
-        function cetakStruk(order) {
-            document.getElementById('p-orderId').innerText = order.orderId;
-            document.getElementById('p-nama').innerText = order.nama;
-            document.getElementById('p-items').innerText = order.detail; // Menampilkan daftar pesanan
-            document.getElementById('p-total').innerText = order.total.toLocaleString('id-ID');
-            document.getElementById('p-pay').innerText = order.pembayaran;
-
-            // Trigger Print bawaan browser (otomatis memotong ukuran kertas sesuai CSS)
-            window.print();
+        function updateTable(orders) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = ''; // Bersihkan tabel
+            
+            // Tampilkan dari yang paling baru (dibalik)
+            orders.reverse().forEach(order => {
+                const date = new Date(order.waktu).toLocaleString('id-ID');
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${date}</td>
+                        <td style="font-weight:600;">${order.nama}</td>
+                        <td>${order.produk}</td>
+                        <td>${order.pembayaran}</td>
+                        <td><span class="badge">${order.status}</span></td>
+                    </tr>
+                `;
+            });
         }
 
-        // Otomatis load saat halaman dibuka
-        window.onload = fetchOrders;
+        function downloadCSV() {
+            if(globalOrders.length === 0) return alert("Belum ada data.");
+            let csv = "Waktu,Nama,Produk,Pembayaran,Status\n";
+            globalOrders.forEach(o => {
+                csv += `"${o.waktu}","${o.nama}","${o.produk}","${o.pembayaran}","${o.status}"\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('href', url);
+            a.setAttribute('download', 'Laporan_Pesanan.csv');
+            a.click();
+        }
+
+        // Jalankan fetch pertama kali, lalu ulangi setiap 5 detik
+        fetchOrders();
+        setInterval(fetchOrders, 5000);
     </script>
 </body>
 </html>
